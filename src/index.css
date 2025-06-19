@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&family=Splash&display=swap');
+@import "tailwindcss";
+
+@font-face {
+    font-family: 'Spiegel';
+    src: url('../public/fonts/Spiegel-Regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Spiegel';
+    src: url('../public/fonts/Spiegel-SemiBold.otf') format('opentype');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Spiegel';
+    src: url('../public/fonts/Spiegel-Bold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@theme {
+    --font-splash: "Splash", sans-serif;
+    --font-spiegel: "Spiegel", sans-serif;
+
+    --color-white: #EFEFEF;
+    --color-black: #0A0A0A;
+    --color-gray-500: #999999;
+    --color-gray-800: #252525;
+    --color-background: #1A1A1A;
+    --color-accent-500: #903fed;
+    --color-accent-800: #4D257B;
+}
+
+body {
+    background-color: var(--color-background);
+}
