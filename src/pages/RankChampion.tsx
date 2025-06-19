@@ -1,4 +1,4 @@
-import {Text} from "../components/shared";
+import {Text, Button} from "../components/shared";
 import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {ChampionSkin} from "../components/rankChampion/ChampionSkin.tsx";
@@ -32,6 +32,10 @@ export const RankChampion = () => {
             championData ?
                 <div>
                     <Text className={'text-center my-[15vh]'} variant={'h1'}>Rank {championData.name} Skins</Text>
+                    <div className={'flex justify-center gap-10 mb-10'}>
+                        <Button>Rank All Skins</Button>
+                        <Button>Rank All Epic+ Skins</Button>
+                    </div>
                     <div className={'flex flex-wrap justify-center gap-10'}>
                         {championData.skins.map((skin: Skin) => (
                             <ChampionSkin name={skin.name} id={skin.id} key={skin.id} />

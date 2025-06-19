@@ -76,7 +76,7 @@ export const ChampionSelect = () => {
                 placeholder="Search..."/>
             </div>
 
-            <div className={'flex flex-wrap gap-16 mt-8 justify-center'}>
+            <div className={'flex flex-wrap gap-16 mt-8 min-h-[50vh] justify-center'}>
                 {
                     !filteredChampions?
                         Array.from({ length: 20 }, (_, i) => (
