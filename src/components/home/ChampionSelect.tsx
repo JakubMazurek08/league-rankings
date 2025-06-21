@@ -70,7 +70,7 @@ export const ChampionSelect = () => {
     return <div>
         <Text variant="h1">Select Champion</Text>
         <div>
-            <div className={'flex justify-between'}>
+            <div className={'flex gap-4 flex-wrap justify-between'}>
                 <Filters filters={filters} setFilters={setFilters}/>
                 <Input onChange={(e) => setSearch(e.currentTarget.value)}
                 placeholder="Search..."/>

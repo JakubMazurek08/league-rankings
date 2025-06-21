@@ -12,7 +12,7 @@ interface TextProps extends HTMLAttributes<HTMLElement> {
 }
 
 const variantClasses: Record<TextVariant, string> = {
-    h1: "text-[4rem] font-bold text-white",
+    h1: "text-[3rem] md:test-[3.5rem] lg:text-[4rem] font-bold text-white",
     p: "text-[1.5rem] font-normal text-gray-500",
 };
 

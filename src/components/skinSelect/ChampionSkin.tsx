@@ -7,7 +7,7 @@ type ChampionSkinProps = {
 }
 
 export const ChampionSkin = ({name, id} : ChampionSkinProps) => {
-    return <Link className={'flex flex-col items-center gap-4'} to={`/${id}`}>
+    return <Link className={'flex flex-col items-center gap-4'} to={`${id}`}>
         <img src={`https://cdn.communitydragon.org/latest/champion/${String(id).slice(0, -3)}/portrait/skin/${String(id).slice(-3)}`} alt=""/>
         <Text>{name}</Text>
     </Link>
