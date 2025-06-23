@@ -5,7 +5,7 @@ export const Navbar = () => {
         <>
             <nav
                 className={
-                    "w-screen px-8 py-4"
+                    "w-screen px-8 py-4 absolute top-0"
                 }
             >
                <Link to={'/'} className={"text-xl text-white font-bold font-spiegel"}>League-Rankings.com</Link>
