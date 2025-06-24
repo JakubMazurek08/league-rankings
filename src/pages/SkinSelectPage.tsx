@@ -2,16 +2,7 @@ import {Text, Button} from "../components/shared";
 import {useParams, useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {ChampionSkin} from "../components/skinSelect/ChampionSkin.tsx";
-
-type Skin = {
-    id: number;
-    name: string;
-}
-
-type ChampionData = {
-    name: string;
-    skins: Skin[];
-}
+import type {ChampionData, Skin} from "../types";
 
 export const SkinSelectPage = () => {
     const {championKey} = useParams();
@@ -39,7 +30,7 @@ export const SkinSelectPage = () => {
                     </div>
                     <div className={'flex flex-wrap justify-center gap-10'}>
                         {championData.skins.map((skin: Skin) => (
-                            <ChampionSkin name={skin.name} id={skin.id} key={skin.id} />
+                                <ChampionSkin name={skin.name} id={skin.id} key={skin.id}/>
                         ))}
                     </div>
                 </div>

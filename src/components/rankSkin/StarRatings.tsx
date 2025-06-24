@@ -1,6 +1,7 @@
 import { Star } from "lucide-react";
-import { useState } from "react";
+import {type Dispatch, type SetStateAction, useState} from "react";
 import { Text } from "../shared";
+import type {Ratings} from "../../types";
 
 // const starColors = [
 //     "#ff4c4c", "#ff6b4c", "#ff884c", "#ffa64c", "#ffc04c",
@@ -12,17 +13,20 @@ const starColors = [
     "#E678FE", "#A96AFF", "#8068FF", "#5C62FF", "#415EFA",
 ];
 
-const categories = ["Model", "SVX/FVX", "Recall", "Splash", "Concept"];
+const categories: (keyof Ratings)[] = ["Model", "SVX/FVX", "Recall", "Splash", "Concept"];
 
 type RatingsProps = {
-    value: Record<string, number>;
-    onChange: (ratings: Record<string, number>) => void;
+    value: Ratings;
+    onChange: Dispatch<SetStateAction<Ratings>>;
     showErrors?: boolean;
 };
 
-export const Ratings = ({ value, onChange, showErrors }: RatingsProps) => {
-    const handleRatingChange = (category: string, newValue: number) => {
-        onChange({ ...value, [category]: newValue });
+export const StarRatings = ({ value, onChange, showErrors }: RatingsProps) => {
+    const handleRatingChange = (category: keyof Ratings, newValue: number) => {
+        onChange({
+            ...value,
+            [category]: newValue,
+        });
     };
 
     return (
@@ -30,17 +34,11 @@ export const Ratings = ({ value, onChange, showErrors }: RatingsProps) => {
             {categories.map((label) => {
                 const isInvalid = showErrors && !value[label];
                 return (
-                    <div
-                        key={label}
-                        className={"flex flex-col gap-1"}
-                    >
+                    <div key={label} className={"flex flex-col gap-1"}>
                         <Text className="text-lg font-semibold">
                             {label}
                             {isInvalid && <span style={{ color: "#ef4444" }} className="ml-1">*</span>}
-                            {isInvalid && " — Fields can't be missing"}
                         </Text>
-
-
 
                         <StarRating
                             value={value[label]}
@@ -53,6 +51,7 @@ export const Ratings = ({ value, onChange, showErrors }: RatingsProps) => {
         </div>
     );
 };
+
 
 
 
