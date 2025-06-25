@@ -16,7 +16,7 @@ export const StarRatingDisplay = ({ value, isFolded = false }: StarRatingDisplay
 
     if (isFolded) {
         return (
-            <Text className="flex items-center gap-1 text-lg font-medium">
+            <Text className="flex items-center text-true-white gap-1 text-lg font-medium">
                 {value}
                 <Star
                     className="size-5"

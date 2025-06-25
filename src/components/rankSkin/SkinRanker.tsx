@@ -21,13 +21,23 @@ export const SkinRanker = ({setRatedSkin}:SkinRankerProps) => {
     const [currentId, setCurrentId] = useState<number>(1);
     const [maxId, setMaxId] = useState<number>(1);
     const [showErrors, setShowErrors] = useState(false);
+    const [isFinished, setIsFinished] = useState(false);
 
     const [currentRatings, setCurrentRatings] = useState<Ratings>(defaultRatings);
     const {championKey, skinId} = useParams();
 
+    const isLast = currentId === maxId;
+    const othersRated = ratedSkins.filter((skin, idx) => idx !== currentId - 1 && !skin.isSkipped).length;
+    const currentWillBeSkipped = true;
+
+    const shouldHideSkip = maxId === 1 || (isLast && othersRated === 0 && currentWillBeSkipped);
+
+
     useEffect(() => {
         console.log(ratedSkins);
     }, [ratedSkins]);
+
+
 
     useEffect(() => {
         fetch(`https://cdn.communitydragon.org/latest/champion/${championKey}/data`)
@@ -71,19 +81,34 @@ export const SkinRanker = ({setRatedSkin}:SkinRankerProps) => {
                 }))
     },[championKey, skinId])
 
-    const finishRating = () => {
-        console.log(ratedSkins)
-        setRatedSkin(ratedSkins.filter(skin=>!skin.isSkipped));
+    useEffect(() => {
+        if (isFinished) {
+            finishRating();
+            setIsFinished(false);
+        }
+    }, [isFinished, ratedSkins]);
+
+
+    const updateRatings = (index:number, isSkipped = false) : void => {
+        setRatedSkins(prev => {
+            const updated = [...prev];
+            updated[index] = {
+                ...updated[index],
+                ratings: currentRatings,
+                isSkipped: isSkipped
+            };
+
+            return updated;
+        });
     }
 
     const handleNext = () => {
-        const allRated: boolean = Boolean(
+        const allRated =
             currentRatings.Concept &&
             currentRatings.Model &&
             currentRatings.Recall &&
             currentRatings.Splash &&
-            currentRatings["SVX/FVX"]
-        );
+            currentRatings["SVX/FVX"];
 
         if (!allRated) {
             setShowErrors(true);
@@ -92,54 +117,43 @@ export const SkinRanker = ({setRatedSkin}:SkinRankerProps) => {
 
         setShowErrors(false);
 
-        setRatedSkins((prevState) => {
-            const updatedSkins = [...prevState];
-            updatedSkins[currentId - 1] = {
-                ...updatedSkins[currentId - 1],
-                ratings: currentRatings,
-            };
+        updateRatings(currentId - 1);
 
-            if (currentId === maxId) {
-                setRatedSkin(updatedSkins.filter(skin => !skin.isSkipped));
-                return updatedSkins;
-            }
-
-            const next = updatedSkins[currentId];
-            if (next) {
-                setCurrentRatings(next.ratings ?? defaultRatings);
-            }
-
-            setCurrentId(prev => prev + 1);
-
-            return updatedSkins;
-        });
-
+        if (currentId === maxId) {
+            setIsFinished(true);
+        } else {
+            const nextSkin = ratedSkins[currentId];
+            setCurrentRatings(nextSkin?.ratings);
+            setCurrentId(id => id + 1);
+        }
     };
 
-
-
-
     const handlePrevious = () => {
-        setCurrentRatings(ratedSkins[currentId-2].ratings ?? defaultRatings);
-        setCurrentId(currentId - 1);
-    }
+        if (currentId <= 1) return;
+        updateRatings(currentId - 1);
 
+        const previousSkin = ratedSkins[currentId - 2];
+        setCurrentRatings(previousSkin?.ratings);
+        setCurrentId(id => id - 1);
+    };
 
     const handleSkip = () => {
-        setRatedSkins((prevState) => {
-            const updatedSkins = [...prevState];
-            updatedSkins[currentId - 1] = {
-                ...updatedSkins[currentId - 1],
-                isSkipped: true
-            };
-            return updatedSkins;
-        });
-        setCurrentId(prevState => prevState + 1);
-        setCurrentRatings(defaultRatings);
-        if(currentId === maxId){
-            finishRating();
+        updateRatings(currentId - 1, true);
+
+        setShowErrors(false);
+
+        if (currentId === maxId) {
+            setIsFinished(true);
+        } else {
+            const nextSkin = ratedSkins[currentId];
+            setCurrentRatings(nextSkin?.ratings);
+            setCurrentId(id => id + 1);
         }
-    }
+    };
+
+    const finishRating = () => {
+        setRatedSkin(ratedSkins.filter(skin => !skin.isSkipped));
+    };
 
 
     return <div className={'w-full min-h-screen flex flex-col justify-center gap-4'}>
@@ -166,7 +180,14 @@ export const SkinRanker = ({setRatedSkin}:SkinRankerProps) => {
                         <Button onClick={handleNext}> {currentId === maxId ? "Finish" : "Next"} </Button>
                         <Button onClick={handlePrevious} className={currentId === 1 ? "hidden" : "Next"}>Previous</Button>
                     </div>
-                    <Button onClick={handleSkip} variant={"ghost"}>Skip</Button>
+                    <Button
+                        className={shouldHideSkip ? "hidden" : ""}
+                        onClick={handleSkip}
+                        variant={"ghost"}
+                    >
+                        Skip
+                    </Button>
+
                 </div>
 
             </>

@@ -11,30 +11,21 @@ const mapScoreToGradeAndColor = (score:number) => {
         throw new Error("Score must be between 0 and 100");
     }
 
-    let grade = '';
-    let color = '';
-
     if (score <= 50) {
-        grade = 'C';
-        color = '#D90000';
+        return 'C'
     } else if (score <= 75) {
-        grade = 'B';
-        color = '#FF7F51';
+        return 'B'
     } else if (score <= 90) {
-        grade = 'A';
-        color = '#95FC46';
+        return 'A'
     } else {
-        grade = 'S';
-        color = '#FCC246';
+        return 'S'
     }
-
-    return { grade, color };
 }
 
 export const SingleSkinDisplay = ({ skin }: SingleSkinDisplayProps) => {
         const ratingSum = Object.values(skin.ratings).reduce((sum, val) => sum + val, 0);
         const ratingPercent = ratingSum / 50 * 100;
-        const {grade, color} = mapScoreToGradeAndColor(ratingPercent);
+        const grade = mapScoreToGradeAndColor(ratingPercent);
 
         return (
         <div className="relative">
@@ -44,7 +35,7 @@ export const SingleSkinDisplay = ({ skin }: SingleSkinDisplayProps) => {
                 className="rounded-lg w-full h-auto block"
             />
 
-            <div className="absolute bottom-4 left-10 rounded-xl bg-black/50 flex flex-col p-4">
+            <div className="absolute bottom-8 left-14 rounded-xl bg-black/50 flex flex-col p-4">
                 <Text className="text-true-white font-bold">{skin.name}</Text>
 
                 <div className="flex items-center gap-4">
@@ -52,14 +43,12 @@ export const SingleSkinDisplay = ({ skin }: SingleSkinDisplayProps) => {
                         {Object.entries(skin.ratings).map(([category, rating]) => (
                             <div key={category} className="flex items-center">
                                 <Text className={'w-24 text-true-white'}>{category}</Text>
-                                <StarRatingDisplay value={rating} />
+                                <StarRatingDisplay  value={rating} />
                             </div>
                         ))}
                     </div>
 
-                    <h1
-                        style={{color: color}}
-                        className={`font-splash text-[140px] pr-10`}>{grade}</h1>
+                    <img className={'h-40'} src={`/ratings/${grade}.png`} alt=""/>
                 </div>
                 <small className={'font-spiegel text-true-white text-lg'}>League-Rankings.com</small>
             </div>
