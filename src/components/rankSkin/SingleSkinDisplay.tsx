@@ -28,11 +28,11 @@ export const SingleSkinDisplay = ({ skin }: SingleSkinDisplayProps) => {
         const grade = mapScoreToGradeAndColor(ratingPercent);
 
         return (
-        <div className="relative">
+        <div className="relative rounded-lg overflow-hidden">
             <img
                 src={`https://cdn.communitydragon.org/latest/champion/${String(skin.id).slice(0, -3)}/splash-art/skin/${String(skin.id).slice(-3)}`}
                 alt="Splash Art"
-                className="rounded-lg w-full h-auto block"
+                className="rounded-lg w-auto block"
             />
 
             <div className="absolute bottom-8 left-14 rounded-xl bg-black/50 flex flex-col p-4">
@@ -43,7 +43,7 @@ export const SingleSkinDisplay = ({ skin }: SingleSkinDisplayProps) => {
                         {Object.entries(skin.ratings).map(([category, rating]) => (
                             <div key={category} className="flex items-center">
                                 <Text className={'w-24 text-true-white'}>{category}</Text>
-                                <StarRatingDisplay  value={rating} />
+                                <StarRatingDisplay value={rating} />
                             </div>
                         ))}
                     </div>

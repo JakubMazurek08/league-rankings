@@ -1,12 +1,17 @@
 import { Star } from "lucide-react";
-import {Text} from "./Text.tsx";
+import { Text } from "./Text.tsx";
 
 type StarRatingDisplayProps = {
     value: number;
     isFolded?: boolean;
+    isSmall?: boolean;
 };
 
-export const StarRatingDisplay = ({ value, isFolded = false }: StarRatingDisplayProps) => {
+export const StarRatingDisplay = ({
+                                      value,
+                                      isFolded = false,
+                                      isSmall = false,
+                                  }: StarRatingDisplayProps) => {
     const starColors = [
         "#FC466B", "#FF5083", "#FF5BA3", "#FF64C1", "#FC6FE5",
         "#E678FE", "#A96AFF", "#8068FF", "#5C62FF", "#415EFA",
@@ -31,20 +36,18 @@ export const StarRatingDisplay = ({ value, isFolded = false }: StarRatingDisplay
     }
 
     return (
-        <div className="flex gap-1 min-w-70">
-            {[...Array(value)].map((_, index) => {
-                return (
-                    <Star
-                        key={index}
-                        className="size-6"
-                        style={{
-                            strokeWidth: 0.5,
-                            stroke: starColors[index],
-                            fill: starColors[index],
-                        }}
-                    />
-                );
-            })}
+        <div className={`flex ${isSmall ? "gap-[1px] min-w-40" : "gap-1 min-w-70"}`}>
+            {[...Array(value)].map((_, index) => (
+                <Star
+                    key={index}
+                    className={isSmall ? "size-4" : "size-6"}
+                    style={{
+                        strokeWidth: 0.5,
+                        stroke: starColors[index],
+                        fill: starColors[index],
+                    }}
+                />
+            ))}
         </div>
     );
 };

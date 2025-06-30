@@ -156,7 +156,7 @@ export const SkinRanker = ({setRatedSkin}:SkinRankerProps) => {
     };
 
 
-    return <div className={'w-full min-h-screen flex flex-col justify-center gap-4'}>
+    return <div className={'w-full min-h-screen flex flex-col pt-20 xl:pt-0 justify-center gap-4'}>
         {!ratedSkins[0] ? <Text>Loading...</Text> :
             <>
                 <div className={'flex justify-between w-full'}>
@@ -164,13 +164,13 @@ export const SkinRanker = ({setRatedSkin}:SkinRankerProps) => {
                     <Text className={maxId === 1 ? "hidden" : ""} variant={'h1'} >{currentId}/{maxId}</Text>
                 </div>
 
-                <div className={'flex items-center justify-between gap-16'}>
+                <div className={'flex flex-col-reverse xl:flex-row items-center justify-between gap-16'}>
                     <StarRatings
                         value={currentRatings}
                         onChange={setCurrentRatings}
                         showErrors={showErrors}
                     />
-                    <div className="hidden lg:flex flex-1 items-stretch">
+                    <div className="flex flex-1 items-stretch">
                         <img className={'object-contain rounded-xl'} src={`https://cdn.communitydragon.org/latest/champion/${String(ratedSkins[currentId-1].id).slice(0, -3)}/splash-art/skin/${String(ratedSkins[currentId-1].id).slice(-3)}`} alt=""/>
                     </div>
                 </div>
